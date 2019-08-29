@@ -16,29 +16,32 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
+
+TaskHandle_t xTaskHandle1=NULL;
+TaskHandle_t xTaskHandle2=NULL;
+
+//Task functions prototypes
+void vTask1_handler(void *params);
+void vTask2_handler(void *params);
+
 #ifdef USE_SEMIHOSTING
 //used for semihosting
 extern void initialise_monitor_handles();
 #endif
 
 static void prvSetupHardware(void);
+static void prvSetupUart(void);
 void printmsg(char *msg);
 
-TaskHandle_t xTaskHandle1=NULL;
-TaskHandle_t xTaskHandle2=NULL;
-
-void vTask1_func(void *params);
-void vTask2_func(void *params);
-
 //some macros
-//#define TRUE 1
-//#define FALSE 0
-//#define AVAILABLE TRUE
-//#define NOT_AVAILABLE FALSE
+#define TRUE 1
+#define FALSE 0
+#define AVAILABLE TRUE
+#define NOT_AVAILABLE FALSE
 
 //Global variable section
 char usr_msg[250]={0};
-//uint8_t UART_ACCESS_KEY = AVAILABLE;
+uint8_t UART_ACCESS_KEY = AVAILABLE;
 
 int main(void)
 {
@@ -47,60 +50,76 @@ int main(void)
 	initialise_monitor_handles();
 	printf("This is hello world example code\n");
 #endif
-		// By default, it uses PLL at 180MHz
-		//Reset the RCC clock configuration to the default reset state.
-		//HSI ON, PLL OFF, HSE OFF, system clock = 16MHz, cpu_clock = 16MHz
-		RCC_DeInit();
+
+	DWT->CTRL |= (1 << 0);//Enable CYCCNT in DWT_CTRL which is used by SystemView for time(no of clock cycles since reset)
+
+	//1.  Reset the RCC clock configuration to the default reset state.
+	//HSI ON, PLL OFF, HSE OFF, system clock = 16MHz, cpu_clock = 16MHz
+	RCC_DeInit();
+
+	//2. update the SystemCoreClock variable
+	SystemCoreClockUpdate();
+
+	prvSetupHardware();
 
 
-		//updating the SystemCoreClock variable
-		SystemCoreClockUpdate();
+	sprintf(usr_msg,"This is hello-world application starting\r\n");
+	printmsg(usr_msg);
 
-		prvSetupHardware();
+	//Start Recording using SEGGER SYSVIEW
+	SEGGER_SYSVIEW_Conf();
+	SEGGER_SYSVIEW_Start();
 
-		sprintf(usr_msg,"This is hello world application \n");
-		printmsg(usr_msg);
+	//3. lets create 2 tasks , task-1 and task-2
+	xTaskCreate( vTask1_handler,"Task-1", configMINIMAL_STACK_SIZE,NULL,2,&xTaskHandle1 );
 
-		//create 2 tasks , task-1 and task-2
-		xTaskCreate( vTask1_func,"Task-1", configMINIMAL_STACK_SIZE,NULL,2,&xTaskHandle1 );
-		xTaskCreate( vTask2_func,"Task-2", configMINIMAL_STACK_SIZE,NULL,2,&xTaskHandle2 );
+	xTaskCreate( vTask2_handler,"Task-2", configMINIMAL_STACK_SIZE,NULL,2,&xTaskHandle2 );
 
-		// Start the scheduler
-		vTaskStartScheduler();
+    //4. Start the scheduler.
+	vTaskStartScheduler();
 
+
+	//you will never return here
 	for(;;);
 }
 
 
-void vTask1_func(void *params)
+
+void vTask1_handler(void *params)
 {
 	//traceTASK_SWITCHED_IN();
-	while(1){
-
-	}
-
-
-}
-
-
-
-void vTask2_func(void *params)
-{
-	while(1){
-	}
-}
-
-
-void printmsg(char *msg)
-{
-	for(uint32_t i=0; i < strlen(msg); i++)
+	while(1)
 	{
-		while ( USART_GetFlagStatus(USART2,USART_FLAG_TXE) != SET);
-		USART_SendData(USART2,msg[i]);
+		if(UART_ACCESS_KEY == AVAILABLE)  //Not ATOMIC , INCORRECT SYNCRONISATION
+		{
+			UART_ACCESS_KEY = NOT_AVAILABLE;
+			printmsg("Hello-world: From Task-1\r\n");
+			UART_ACCESS_KEY = AVAILABLE;
+			SEGGER_SYSVIEW_Print("Task1 is yielding");
+			traceISR_EXIT_TO_SCHEDULER();
+			taskYIELD();
+		}
+
 	}
 
-	while ( USART_GetFlagStatus(USART2,USART_FLAG_TC) != SET);
+}
 
+
+
+void vTask2_handler(void *params)
+{
+	while(1)
+	{
+		if(UART_ACCESS_KEY == AVAILABLE)  //Not ATOMIC , INCORRECT SYNCRONISATION
+		{
+			UART_ACCESS_KEY = NOT_AVAILABLE;
+			printmsg("Hello-world: From Task-2\r\n");
+			UART_ACCESS_KEY = AVAILABLE;
+			SEGGER_SYSVIEW_Print("Task2 is yielding");
+			traceISR_EXIT_TO_SCHEDULER();
+			taskYIELD();
+		}
+	}
 }
 
 static void prvSetupUart(void)
@@ -108,13 +127,13 @@ static void prvSetupUart(void)
 	GPIO_InitTypeDef gpio_uart_pins;
 	USART_InitTypeDef uart2_init;
 
-	//Enable the UART2  and GPIOA Peripheral clock
+	//1. Enable the UART2  and GPIOA Peripheral clock
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2,ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA,ENABLE);
 
 	//PA2 is UART2_TX, PA3 is UART2_RX
 
-	//Alternate function configuration of MCU pins to behave as UART2 TX and RX
+	//2. Alternate function configuration of MCU pins to behave as UART2 TX and RX
 
 	//zeroing each and every member element of the structure
 	memset(&gpio_uart_pins,0,sizeof(gpio_uart_pins));
@@ -127,11 +146,11 @@ static void prvSetupUart(void)
 	GPIO_Init(GPIOA, &gpio_uart_pins);
 
 
-	//AF mode settings for the pins
+	//3. AF mode settings for the pins
     GPIO_PinAFConfig(GPIOA,GPIO_PinSource2,GPIO_AF_USART2); //PA2
 	GPIO_PinAFConfig(GPIOA,GPIO_PinSource3,GPIO_AF_USART2); //PA3
 
-	//UART parameter initializations
+	//4. UART parameter initializations
 	//zeroing each and every member element of the structure
 	memset(&uart2_init,0,sizeof(uart2_init));
 
@@ -153,4 +172,16 @@ static void prvSetupHardware(void)
 {
 	//setup UART2
 	prvSetupUart();
+}
+
+void printmsg(char *msg)
+{
+	for(uint32_t i=0; i < strlen(msg); i++)
+	{
+		while ( USART_GetFlagStatus(USART2,USART_FLAG_TXE) != SET);
+		USART_SendData(USART2,msg[i]);
+	}
+
+	while ( USART_GetFlagStatus(USART2,USART_FLAG_TC) != SET);
+
 }

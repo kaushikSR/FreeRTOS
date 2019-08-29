@@ -58,3 +58,93 @@ Caused by: java.lang.IllegalStateException: Expected BEGIN_OBJECT but was STRING
 
 !ENTRY org.eclipse.cdt.core 1 0 2019-08-29 10:44:04.438
 !MESSAGE Indexed 'STM32_FreeRTOS_Led_Button' (55 sources, 118 headers) in 0.861 sec: 10,617 declarations; 43,605 references; 1 unresolved inclusions; 1 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2019-08-29 16:54:43.280
+!MESSAGE Indexed 'STM32_FreeRTOS_Led_Button_IT' (46 sources, 98 headers) in 1.31 sec: 8,654 declarations; 34,160 references; 0 unresolved inclusions; 1 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2019-08-29 16:57:29.102
+!MESSAGE Indexed 'STM32_FreeRTOS_Led_Button_IT' (46 sources, 98 headers) in 0.811 sec: 8,654 declarations; 34,160 references; 0 unresolved inclusions; 1 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.core.resources 4 2 2019-08-29 17:01:16.248
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.core.resources".
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Resource '/STM32_FreeRTOS_Led_Button_IT/Debug/ThirdParty/SEGGER/Config' does not exist.
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:335)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:209)
+	at org.eclipse.core.internal.resources.Container.members(Container.java:239)
+	at org.eclipse.core.internal.resources.Container.members(Container.java:226)
+	at fr.ac6.mcu.ide.process.makefile.MakefileGenerator.generateDependencies(MakefileGenerator.java:614)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.performPostbuildGeneration(CommonBuilder.java:856)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:767)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:510)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:459)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:735)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:206)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:246)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:301)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:304)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:360)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:383)
+	at org.eclipse.core.internal.resources.Workspace.buildInternal(Workspace.java:487)
+	at org.eclipse.core.internal.resources.Workspace.build(Workspace.java:406)
+	at org.eclipse.ui.actions.BuildAction$1.runInWorkspace(BuildAction.java:285)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:39)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.eclipse.core.resources 4 368 2019-08-29 17:01:16.249
+!MESSAGE Resource '/STM32_FreeRTOS_Led_Button_IT/Debug/ThirdParty/SEGGER/Config' does not exist.
+!SUBENTRY 1 org.eclipse.core.resources 4 368 2019-08-29 17:01:16.249
+!MESSAGE Resource '/STM32_FreeRTOS_Led_Button_IT/Debug/ThirdParty/SEGGER/Config' does not exist.
+
+!ENTRY org.eclipse.core.resources 4 75 2019-08-29 17:01:16.483
+!MESSAGE Errors occurred during the build.
+!SUBENTRY 1 org.eclipse.cdt.managedbuilder.core 4 75 2019-08-29 17:01:16.483
+!MESSAGE Errors running builder 'CDT Builder' on project 'STM32_FreeRTOS_Led_Button_IT'.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Resource '/STM32_FreeRTOS_Led_Button_IT/Debug/ThirdParty/SEGGER/Config' does not exist.
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:335)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:209)
+	at org.eclipse.core.internal.resources.Container.members(Container.java:239)
+	at org.eclipse.core.internal.resources.Container.members(Container.java:226)
+	at fr.ac6.mcu.ide.process.makefile.MakefileGenerator.generateDependencies(MakefileGenerator.java:614)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.performPostbuildGeneration(CommonBuilder.java:856)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:767)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:510)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:459)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:735)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:206)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:246)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:301)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:304)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:360)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:383)
+	at org.eclipse.core.internal.resources.Workspace.buildInternal(Workspace.java:487)
+	at org.eclipse.core.internal.resources.Workspace.build(Workspace.java:406)
+	at org.eclipse.ui.actions.BuildAction$1.runInWorkspace(BuildAction.java:285)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:39)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 2 org.eclipse.core.resources 4 368 2019-08-29 17:01:16.483
+!MESSAGE Resource '/STM32_FreeRTOS_Led_Button_IT/Debug/ThirdParty/SEGGER/Config' does not exist.
+!SUBENTRY 1 org.eclipse.core.resources 4 368 2019-08-29 17:01:16.483
+!MESSAGE Resource '/STM32_FreeRTOS_Led_Button_IT/Debug/ThirdParty/SEGGER/Config' does not exist.
+
+!ENTRY org.eclipse.cdt.core 1 0 2019-08-29 17:04:36.516
+!MESSAGE Indexed 'STM32_FreeRTOS_Led_Button_IT' (55 sources, 118 headers) in 0.912 sec: 10,617 declarations; 43,605 references; 0 unresolved inclusions; 1 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2019-08-29 17:06:35.481
+!MESSAGE Indexed 'STM32_FreeRTOS_Led_Button_IT' (55 sources, 118 headers) in 0.872 sec: 10,617 declarations; 43,605 references; 0 unresolved inclusions; 1 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2019-08-29 17:06:56.037
+!MESSAGE Indexed 'STM32_FreeRTOS_Led_Button_IT' (55 sources, 118 headers) in 0.906 sec: 10,617 declarations; 43,605 references; 0 unresolved inclusions; 1 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2019-08-29 17:09:37.768
+!MESSAGE Indexed 'STM32_FreeRTOS_Led_Button' (55 sources, 118 headers) in 0.934 sec: 10,647 declarations; 43,857 references; 0 unresolved inclusions; 1 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2019-08-29 17:13:10.586
+!MESSAGE Indexed 'STM32_FreeRTOS_Led_Button' (55 sources, 118 headers) in 0.884 sec: 10,647 declarations; 43,857 references; 0 unresolved inclusions; 1 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2019-08-29 17:15:41.162
+!MESSAGE Indexed 'STM32_HelloWorld' (58 sources, 118 headers) in 0.896 sec: 11,577 declarations; 48,724 references; 0 unresolved inclusions; 1 syntax errors; 0 unresolved names (0%)

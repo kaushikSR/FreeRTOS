@@ -1,4 +1,4 @@
-10:23:49 **** Clean-only build of configuration Debug for project STM32_HelloWorld ****
+16:52:14 **** Clean-only build of configuration Debug for project STM32_HelloWorld ****
 make -j12 clean 
 rm -rf *
  
